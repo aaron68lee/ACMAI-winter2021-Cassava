@@ -1,7 +1,9 @@
+from typing import ForwardRef
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.utils.tensorboard
+from torch.utils.tensorboard.writer import SummaryWriter
 
 
 def starting_train(
@@ -30,6 +32,10 @@ def starting_train(
         val_dataset, batch_size=batch_size, shuffle=True
     )
 
+    #initialize summary logs
+    train_summary = SummaryWriter("./logs/CassavaLogs")
+    validation_summary = SummaryWriter("./logs/CassavaLogs")
+
     # Initalize optimizer (for gradient descent) and loss function
     optimizer = optim.Adam(model.parameters())
     loss_fn = nn.CrossEntropyLoss()
@@ -46,18 +52,37 @@ def starting_train(
             print(f"\rIteration {i + 1} of {len(train_loader)} ...", end="")
 
             # TODO: Backpropagation and gradient descent
+   
+            # Input data for this batch
+            input_data, labels = batch
+
+            # Zero/clear out the gradients
+            optimizer.zero_grad()
+
+            # Make predictions and calculate loss
+            predictions = model.forward(input_data)
+            loss = loss_fn(predictions, labels)
+
+            step += 1
+
+            # backprop advance 
+            loss.backwards()
+            optimizer.step()
+
 
             # Periodically evaluate our model + log to Tensorboard
             if step % n_eval == 0:
+                #predictions = ForwardRef
                 # TODO:
                 # Compute training loss and accuracy.
+                print("Epoch ", epoch, " Loss ", loss.item())
                 # Log the results to Tensorboard.
+                train_summary.add_scalar("train_loss", loss, global_step = step)
 
                 # TODO:
                 # Compute validation loss and accuracy.
-                # Log the results to Tensorboard.
-                # Don't forget to turn off gradient calculations!
-                evaluate(val_loader, model, loss_fn)
+                evaluate(val_loader, model, loss_fn, validation_summary, val_dataset)
+                model.train()
 
             step += 1
 
@@ -81,10 +106,22 @@ def compute_accuracy(outputs, labels):
     return n_correct / n_total
 
 
-def evaluate(val_loader, model, loss_fn):
+def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset):
     """
     Computes the loss and accuracy of a model on the validation dataset.
 
+    
     TODO!
     """
+    model.eval()
+
+    input_data_VAL, labels_VAL = val_dataset
+
+    predictions_VAL = model.forward(input_data_VAL)
+    loss_VAL = loss_fn(predictions_VAL, labels_VAL)
+
+    # Log the results to Tensorboard.
+    validation_summary.add_scalar("validation_loss", loss, global_step = step)
+    # Don't forget to turn off gradient calculations!
+    
     pass
