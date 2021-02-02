@@ -105,7 +105,8 @@ def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, 
     #gets first validation_VAL images for validation testing
     #for i in validation_N:
     #    input_data_VAL
-    loss_VAL = 0 for i, batch in enumerate(val_loader):
+    loss_VAL = 0 
+    for i, batch in enumerate(val_loader):
         input_data_VAL, labels_VAL = batch
         if i >= validation_N/batch_size:
             break
