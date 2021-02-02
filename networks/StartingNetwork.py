@@ -28,6 +28,16 @@ class StartingNetwork(nn.Module):
         input_width=getUpdatedDimension(input_width,0,1,5,1)
         input_height=getUpdatedDimension(input_height,0,1,2,2)
         input_width=getUpdatedDimension(input_width,0,1,2,2)
+
+        #add more conv layers and max pool after
+        """
+        #self.conv3 = nn.Conv2d(6, 16, 5)
+        input_height=getUpdatedDimension(input_height,0,1,5,1)
+        input_width=getUpdatedDimension(input_width,0,1,5,1)
+        input_height=getUpdatedDimension(input_height,0,1,2,2)
+        input_width=getUpdatedDimension(input_width,0,1,2,2)
+
+        """
         self.flattened_dim=16*input_width*input_height
         self.fc1 = nn.Linear(self.flattened_dim, 256)
         self.fc2 = nn.Linear(256, 128)
