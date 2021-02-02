@@ -61,33 +61,40 @@ def starting_train(
 
             # Make predictions and calculate loss
             predictions = model.forward(input_data)
+            """
+            print("=========================================================")
+            print(labels.shape)
+            #print(labels)
+            print(predictions.shape)
+            #print(predictions)
+            print("=========================================================")
+            """
             loss = loss_fn(predictions, labels)
 
-            step += 1
-
             # backprop advance 
-            loss.backwards()
+            loss.backward()
             optimizer.step()
 
-
+            print("Epoch \n", epoch, "  Train Loss: ", loss.item())
+            """
             # Periodically evaluate our model + log to Tensorboard
             if step % n_eval == 0:
                 #predictions = ForwardRef
                 # TODO:
                 # Compute training loss and accuracy.
-                print("Epoch ", epoch, " Loss ", loss.item())
+                ####
                 # Log the results to Tensorboard.
                 train_summary.add_scalar("train_loss", loss, global_step = step)
 
                 # TODO:
                 # Compute validation loss and accuracy.
-                evaluate(val_loader, model, loss_fn, validation_summary, val_dataset)
+                evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step)
                 model.train()
+            """
 
             step += 1
 
-        print()
-
+    #print(compute_accuracy(outputs, labels))
 
 def compute_accuracy(outputs, labels):
     """
@@ -106,12 +113,10 @@ def compute_accuracy(outputs, labels):
     return n_correct / n_total
 
 
-def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset):
+def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step):
+    
     """
     Computes the loss and accuracy of a model on the validation dataset.
-
-    
-    TODO!
     """
     model.eval()
 
@@ -121,7 +126,10 @@ def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset):
     loss_VAL = loss_fn(predictions_VAL, labels_VAL)
 
     # Log the results to Tensorboard.
-    validation_summary.add_scalar("validation_loss", loss, global_step = step)
+    validation_summary.add_scalar("validation_loss", loss_VAL, global_step = step)
+
+    print("  Validation Loss: ", loss.item())
+
     # Don't forget to turn off gradient calculations!
     
     pass
