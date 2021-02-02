@@ -61,14 +61,6 @@ def starting_train(
 
             # Make predictions and calculate loss
             predictions = model.forward(input_data)
-            """
-            print("=========================================================")
-            print(labels.shape)
-            #print(labels)
-            print(predictions.shape)
-            #print(predictions)
-            print("=========================================================")
-            """
             loss = loss_fn(predictions, labels)
 
             # backprop advance 
@@ -76,7 +68,7 @@ def starting_train(
             optimizer.step()
 
             print("Epoch \n", epoch, "  Train Loss: ", loss.item())
-            """
+            
             # Periodically evaluate our model + log to Tensorboard
             if step % n_eval == 0:
                 #predictions = ForwardRef
@@ -88,48 +80,37 @@ def starting_train(
 
                 # TODO:
                 # Compute validation loss and accuracy.
-                evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step)
+                evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step,batch_size)
                 model.train()
-            """
+            
 
             step += 1
 
-    #print(compute_accuracy(outputs, labels))
+    print("Accuracy: "+str(compute_accuracy(outputs, labels)))
 
 def compute_accuracy(outputs, labels):
-    """
-    Computes the accuracy of a model's predictions.
-
-    Example input:
-        outputs: [0.7, 0.9, 0.3, 0.2]
-        labels:  [1, 1, 0, 1]
-
-    Example output:
-        0.75
-    """
-
     n_correct = (torch.round(outputs) == labels).sum().item()
     n_total = len(outputs)
     return n_correct / n_total
 
 
-def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step):
+def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step,batch_size):
     
     """
     Computes the loss and accuracy of a model on the validation dataset.
     """
     model.eval()
+    validation_N = 64
 
-    input_data_VAL, labels_VAL = val_dataset
-
-    predictions_VAL = model.forward(input_data_VAL)
-    loss_VAL = loss_fn(predictions_VAL, labels_VAL)
-
-    # Log the results to Tensorboard.
-    validation_summary.add_scalar("validation_loss", loss_VAL, global_step = step)
-
-    print("  Validation Loss: ", loss.item())
-
-    # Don't forget to turn off gradient calculations!
+    #gets first validation_VAL images for validation testing
+    #for i in validation_N:
+    #    input_data_VAL
+    loss_VAL = 0 for i, batch in enumerate(val_loader):
+        input_data_VAL, labels_VAL = batch
+        if i >= validation_N/batch_size:
+            break
+        
+        print(input_data_VAL.shape)
     
-    pass
+        predictions_VAL = model.forward(input_data_VAL)
+        loss_VAL += loss_fn(predictions_VAL, labels_VAL)

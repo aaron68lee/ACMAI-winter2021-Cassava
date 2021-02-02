@@ -28,8 +28,6 @@ class StartingNetwork(nn.Module):
         input_width=getUpdatedDimension(input_width,0,1,5,1)
         input_height=getUpdatedDimension(input_height,0,1,2,2)
         input_width=getUpdatedDimension(input_width,0,1,2,2)
-        #print(input_width)
-        #print(input_height)
         self.flattened_dim=16*input_width*input_height
         self.fc1 = nn.Linear(self.flattened_dim, 256)
         self.fc2 = nn.Linear(256, 128)
@@ -38,14 +36,10 @@ class StartingNetwork(nn.Module):
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
-        print(x.shape) # torch.Size([32, 16, 147, 197])
         x = torch.reshape(x, (32,self.flattened_dim))
-        print(x.shape)
         x = self.fc1(x)
-        print(x.shape)
         x = F.relu(x)
         x = self.fc2(x)
         x = F.relu(x)
         x = self.fc3(x)
-        print(x.shape)
         return x

@@ -1,3 +1,3 @@
-EPOCHS = 100
+EPOCHS = 15 #original 100
 BATCH_SIZE = 32
 N_EVAL = 100
