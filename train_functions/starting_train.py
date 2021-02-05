@@ -100,7 +100,7 @@ def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, 
     Computes the loss and accuracy of a model on the validation dataset.
     """
     model.eval()
-    validation_N = 64
+    validation_N = 1024
 
     #gets first validation_VAL images for validation testing
     #for i in validation_N:
@@ -111,7 +111,5 @@ def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, 
         if i >= validation_N/batch_size:
             break
         
-        print(input_data_VAL.shape)
-    
         predictions_VAL = model.forward(input_data_VAL)
         loss_VAL += loss_fn(predictions_VAL, labels_VAL)

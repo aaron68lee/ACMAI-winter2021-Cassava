@@ -5,6 +5,7 @@ import time
 
 import constants
 from datasets.OurDataset import OurDataset
+from datasets.ValidationDataset import ValidationDataset
 from networks.StartingNetwork import StartingNetwork
 from train_functions.starting_train import starting_train
 
@@ -31,7 +32,7 @@ def main():
 
     # Initalize dataset and model. Then train the model!
     train_dataset = OurDataset()
-    val_dataset = OurDataset()
+    val_dataset = ValidationDataset()
     model = StartingNetwork(3,800,600,5)
     starting_train(
         train_dataset=train_dataset,
