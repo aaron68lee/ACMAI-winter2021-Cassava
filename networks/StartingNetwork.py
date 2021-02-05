@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torchvision.models as models
 
 
 #Gets updated output dimension for Conv2d or MaxPool2d Layer
@@ -38,15 +39,24 @@ class StartingNetwork(nn.Module):
         input_width=getUpdatedDimension(input_width,0,1,2,2)
 
         """
+        self.resnet = models.resnet18()#maybe add .eval() here
+
         self.flattened_dim=16*input_width*input_height
         self.fc1 = nn.Linear(self.flattened_dim, 256)
         self.fc2 = nn.Linear(256, 128)
         self.fc3 = nn.Linear(128, output_dim)
 
     def forward(self, x):
+        '''
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         x = torch.reshape(x, (x.size()[0],self.flattened_dim))
+        '''
+        # Call self.resnet here
+        # Freeze gradients with eval() or sumn
+        # Remove last layer, and add new one
+        #https://pytorch.org/vision/stable/models.html 
+
         x = self.fc1(x)
         x = F.relu(x)
         x = self.fc2(x)
