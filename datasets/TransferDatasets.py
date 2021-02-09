@@ -10,7 +10,7 @@ class TransferTrainDataset(torch.utils.data.Dataset):
     # want to access already downloaded items w/o loading them all into memory. Do this in __getitem__.
 
     def __init__(self):  # load pics from memory
-        train_set = pd.read_csv("../names/train.csv") # change back to ../
+        train_set = pd.read_csv("names/train.csv") # change back to ../
         self.pictures = train_set['image_id'].astype('string')
         self.disease_labels = train_set['label']
 
