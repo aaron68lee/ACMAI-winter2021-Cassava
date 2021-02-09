@@ -16,7 +16,7 @@ class ValidationDataset(torch.utils.data.Dataset):
 
     # process images here, could augment pictures here to save memory
     def __getitem__(self, index):
-        img = mpimg.imread("../train_images/"+self.pictures[index])
+        img = mpimg.imread("data/train_images/"+self.pictures[index])
         trans = transforms.ToTensor()
         img=trans(img) 
         

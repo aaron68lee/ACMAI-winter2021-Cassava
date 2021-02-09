@@ -1,6 +1,6 @@
 import torch
 import torchvision.transforms as transforms
-import matplotlib.image as mpimg
+from PIL import Image
 import pandas as pd
 
 class TransferTrainDataset(torch.utils.data.Dataset):
@@ -10,15 +10,14 @@ class TransferTrainDataset(torch.utils.data.Dataset):
     # want to access already downloaded items w/o loading them all into memory. Do this in __getitem__.
 
     def __init__(self):  # load pics from memory
-        train_set = pd.read_csv("names/train.csv") # change back to ../
+        train_set = pd.read_csv("../names/train.csv") # change back to ../
         self.pictures = train_set['image_id'].astype('string')
         self.disease_labels = train_set['label']
 
     # process images here, could augment pictures here to save memory
     def __getitem__(self, index):
-        img = mpimg.imread("../train_images/"+self.pictures[index]) # change back to ../ for google colab
-        trans = transforms.Compose([transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        img = Image.open("../train_images/" + self.pictures[index]) # change back to ../ for google colab
+        trans = transforms.Compose([transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
         img = trans(img) 
         
@@ -36,15 +35,14 @@ class TransferValidationDataset(torch.utils.data.Dataset):
     # want to access already downloaded items w/o loading them all into memory. Do this in __getitem__.
 
     def __init__(self):  # load pics from memory
-        train_set = pd.read_csv("names/validation.csv") # change back to ../
+        train_set = pd.read_csv("../names/validation.csv") # change back to ../
         self.pictures = train_set['image_id'].astype('string')
         self.disease_labels = train_set['label']
 
     # process images here, could augment pictures here to save memory
     def __getitem__(self, index):
-        img = mpimg.imread("../train_images/"+self.pictures[index]) # change back to ../ for google colab
-        trans = transforms.Compose([transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        img = Image.open("../train_images/" + self.pictures[index]) # change back to ../ for google colab
+        trans = transforms.Compose([transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
         img=trans(img) 
         
