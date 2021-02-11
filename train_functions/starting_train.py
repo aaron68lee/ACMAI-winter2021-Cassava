@@ -67,7 +67,7 @@ def starting_train(
             loss.backward()
             optimizer.step()
 
-            print("Epoch \n", epoch, "  Train Loss: ", loss.item())
+            print("Epoch ", epoch, "\n  Train Loss: ", loss.item())
             
             # Periodically evaluate our model + log to Tensorboard
             if step % n_eval == 0:
@@ -83,7 +83,9 @@ def starting_train(
 
                 # TODO:
                 # Compute validation loss and accuracy.
+                '''
                 evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step,batch_size)
+                '''
                 model.train()
             
 
