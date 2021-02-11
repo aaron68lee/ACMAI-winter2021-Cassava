@@ -3,6 +3,18 @@ import torchvision.transforms as transforms
 from PIL import Image
 import pandas as pd
 
+"""
+import skimage.io as io
+from skimage.transform import rotate, AffineTransform, warp
+from skimage.util import random_noise
+from skimage.filters import gaussian
+
+image = io.imread(image_path)
+rotated = rotate(image, angle=90
+"""
+
+
+
 class TransferTrainDataset(torch.utils.data.Dataset):
     """
     Dataset that contains 100000 3x224x224 black images (all zeros).
@@ -17,7 +29,7 @@ class TransferTrainDataset(torch.utils.data.Dataset):
     # process images here, could augment pictures here to save memory
     def __getitem__(self, index):
         img = Image.open("../train_images/" + self.pictures[index]) # change back to ../ for google colab
-        trans = transforms.Compose([transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+        trans = transforms.Compose([transforms.Resize(384), transforms.CenterCrop(384), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
         img = trans(img) 
         
@@ -42,7 +54,7 @@ class TransferValidationDataset(torch.utils.data.Dataset):
     # process images here, could augment pictures here to save memory
     def __getitem__(self, index):
         img = Image.open("../train_images/" + self.pictures[index]) # change back to ../ for google colab
-        trans = transforms.Compose([transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+        trans = transforms.Compose([transforms.Resize(384), transforms.CenterCrop(384), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
         img=trans(img) 
         

@@ -77,6 +77,9 @@ def starting_train(
                 ####
                 # Log the results to Tensorboard.
                 train_summary.add_scalar("train_loss", loss, global_step = step)
+                train_acc = compute_accuracy(predictions, labels)
+                train_summary.add_scalar("train_acc", train_acc, global_step = step)
+
 
                 # TODO:
                 # Compute validation loss and accuracy.
@@ -86,7 +89,7 @@ def starting_train(
 
             step += 1
 
-    print("Accuracy: "+str(compute_accuracy(outputs, labels)))
+    # print("Accuracy: "+str(compute_accuracy(outputs, labels)))
 
 def compute_accuracy(outputs, labels):
     n_correct = (torch.round(outputs) == labels).sum().item()

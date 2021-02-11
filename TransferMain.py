@@ -28,8 +28,7 @@ def main():
     summary_path = f"{SUMMARIES_PATH}/{label}"
     os.makedirs(summary_path, exist_ok=True)
 
-    # TODO: Add GPU support. This line of code might be helpful.
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     print("Summary path:", summary_path)
     print("Epochs:", args.epochs)
