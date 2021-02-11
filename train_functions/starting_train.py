@@ -92,8 +92,13 @@ def starting_train(
     # print("Accuracy: "+str(compute_accuracy(outputs, labels)))
 
 def compute_accuracy(outputs, labels):
-    n_correct = (torch.round(outputs) == labels).sum().item()
+    #print(outputs)
+    #print(torch.topk(outputs,1)[1])
+    #print(list(labels.size()))
+    #print(labels)
+    n_correct = (torch.transpose(torch.topk(outputs,1)[1],0,1) == labels).sum().item()
     n_total = len(outputs)
+    print('   -- Acc:', n_correct / n_total)
     return n_correct / n_total
 
 

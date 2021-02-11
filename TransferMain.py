@@ -4,6 +4,7 @@ import time
 
 
 import constants
+import torch
 from datasets.TransferDatasets import TransferTrainDataset, TransferValidationDataset
 from networks.StartingNetwork import StartingNetwork
 import numpy as np
