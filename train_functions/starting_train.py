@@ -129,7 +129,7 @@ def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, 
             break
         
         predictions_VAL = model.forward(input_data_VAL)
-        acc_sum = acc_sum + compute_accuracy(predictions, labels_VAL)
+        acc_sum = acc_sum + compute_accuracy(predictions_VAL, labels_VAL)
         acc_times = acc_times + 1
     
     validation_summary.add_scalar("val_acc", acc_sum/acc_times, global_step = step)
