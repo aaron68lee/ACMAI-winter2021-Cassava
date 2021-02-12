@@ -3,18 +3,6 @@ import torchvision.transforms as transforms
 from PIL import Image
 import pandas as pd
 
-"""
-import skimage.io as io
-from skimage.transform import rotate, AffineTransform, warp
-from skimage.util import random_noise
-from skimage.filters import gaussian
-
-image = io.imread(image_path)
-rotated = rotate(image, angle=90
-"""
-
-
-
 class TransferTrainDataset(torch.utils.data.Dataset):
     """
     Dataset that contains 100000 3x224x224 black images (all zeros).
@@ -28,17 +16,26 @@ class TransferTrainDataset(torch.utils.data.Dataset):
 
     # process images here, could augment pictures here to save memory
     def __getitem__(self, index):
-        img = Image.open("../train_images/" + self.pictures[index]) # change back to ../ for google colab
+        if index*4<self.pictures.size:
+            c='A'
+        elif index*2<self.pictures.size:
+            c='B'
+        elif index*4/3<self.pictures.size:
+            c='C'
+        else:
+            c='D'
+        
+        img = Image.open("../augmented_images/" + c+self.pictures[index]) # change back to ../ for google colab
         trans = transforms.Compose([transforms.Resize(384), transforms.CenterCrop(384), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
         img = trans(img) 
         
-        disease_of_indexed_picture = self.disease_labels[index]
+        disease_of_indexed_picture = self.disease_labels[index-(self.pictures.size*int(index/[self.pictures.size]))]
 
         return img, disease_of_indexed_picture
 
     def __len__(self):
-        return len(self.disease_labels)
+        return 4*len(self.disease_labels)
 
 class TransferValidationDataset(torch.utils.data.Dataset):
     """
@@ -53,14 +50,22 @@ class TransferValidationDataset(torch.utils.data.Dataset):
 
     # process images here, could augment pictures here to save memory
     def __getitem__(self, index):
-        img = Image.open("../train_images/" + self.pictures[index]) # change back to ../ for google colab
+        if index*4<self.pictures.size:
+            c='A'
+        elif index*2<self.pictures.size:
+            c='B'
+        elif index*4/3<self.pictures.size:
+            c='C'
+        else:
+            c='D'
+        
+        img = Image.open("../augmented_images/" + c+self.pictures[index]) # change back to ../ for google colab
         trans = transforms.Compose([transforms.Resize(384), transforms.CenterCrop(384), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
-        img=trans(img) 
+        img = trans(img) 
         
-        disease_of_indexed_picture = self.disease_labels[index]
+        disease_of_indexed_picture = self.disease_labels[index-(self.pictures.size*int(index/[self.pictures.size]))]
 
         return img, disease_of_indexed_picture
-
     def __len__(self):
-        return len(self.disease_labels)
+        return 4*len(self.disease_labels)
