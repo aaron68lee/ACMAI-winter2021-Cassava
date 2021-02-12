@@ -44,7 +44,6 @@ def starting_train(
     writer = torch.utils.tensorboard.SummaryWriter(summary_path)
 
     step = 0
-    n_eval_val = 500
     for epoch in range(epochs):
         print(f"Epoch {epoch + 1} of {epochs}")
 
@@ -90,12 +89,12 @@ def starting_train(
                 '''
                 model.train()
 
-            # Evaluate on validation dataset
-            if step % n_eval_val == 0:
-                evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step,batch_size)
-                model.train()
+                
 
             step += 1
+        
+        evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step,batch_size)
+        model.train()
 
 
 def compute_accuracy(outputs, labels):
