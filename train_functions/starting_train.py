@@ -80,6 +80,7 @@ def starting_train(
                 train_summary.add_scalar("train_loss", loss, global_step = step)
                 train_acc = compute_accuracy(predictions, labels)
                 train_summary.add_scalar("train_acc", train_acc, global_step = step)
+                print('====== TRAIN ACC:', train_acc)
 
 
                 # TODO:
@@ -90,7 +91,7 @@ def starting_train(
                 model.train()
 
             # Evaluate on validation dataset
-            if step % n_eval_val:
+            if step % n_eval_val == 0:
                 evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step,batch_size)
                 model.train()
 
@@ -104,7 +105,7 @@ def compute_accuracy(outputs, labels):
     #print(labels)
     n_correct = (torch.transpose(torch.topk(outputs,1)[1],0,1) == labels).sum().item()
     n_total = len(outputs)
-    print('   -- Acc:', n_correct / n_total)
+    #print('   -- Acc:', n_correct / n_total)
     return n_correct / n_total
 
 
@@ -133,5 +134,5 @@ def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, 
         acc_times = acc_times + 1
     
     validation_summary.add_scalar("val_acc", acc_sum/acc_times, global_step = step)
-    print('=== VALIDATION ACC:', acc_sum/acc_times,' =====')
+    print('===== VALIDATION ACC:', acc_sum/acc_times,' =====')
         
