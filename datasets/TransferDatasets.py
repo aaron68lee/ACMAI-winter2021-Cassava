@@ -30,7 +30,8 @@ class TransferTrainDataset(torch.utils.data.Dataset):
 
         img = trans(img) 
         
-        disease_of_indexed_picture = self.disease_labels[index-(self.pictures.size*int(index/[self.pictures.size]))]
+        disease_of_indexed_picture = self.disease_labels[index-(self.pictures.size*int(index/self.pictures.size))]
+        #disease_of_indexed_picture = self.disease_labels[index-(self.pictures.size*int(index/[self.pictures.size]))]
 
         return img, disease_of_indexed_picture
 
