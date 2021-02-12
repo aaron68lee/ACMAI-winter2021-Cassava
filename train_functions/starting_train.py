@@ -92,6 +92,8 @@ def starting_train(
             step += 1
 
     # print("Accuracy: "+str(compute_accuracy(outputs, labels)))
+        evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, step,batch_size)
+
 
 def compute_accuracy(outputs, labels):
     #print(outputs)
@@ -116,10 +118,18 @@ def evaluate(val_loader, model, loss_fn, validation_summary, val_dataset, loss, 
     #for i in validation_N:
     #    input_data_VAL
     loss_VAL = 0 
+
+    acc_sum = 0
+    acc_times = 0
     for i, batch in enumerate(val_loader):
         input_data_VAL, labels_VAL = batch
         if i >= validation_N/batch_size:
             break
         
         predictions_VAL = model.forward(input_data_VAL)
-        loss_VAL += loss_fn(predictions_VAL, labels_VAL)
+        acc_sum = acc_sum + compute_accuracy(predictions, labels_VAL)
+        acc_times = acc_times + 1
+    
+    validation_summary.add_scalar("val_acc", acc_sum/acc_times, global_step = step)
+    print('=== VALIDATION ACC:', acc_sum/acc_times,' =====')
+        
