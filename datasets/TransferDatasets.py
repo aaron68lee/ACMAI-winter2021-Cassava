@@ -25,7 +25,7 @@ class TransferTrainDataset(torch.utils.data.Dataset):
         else:
             c='D'
         
-        img = Image.open("../augmented_images/" + c+self.pictures[index%pictures.size]) # change back to ../ for google colab
+        img = Image.open("../augmented_images/" + c+self.pictures[index%self.pictures.size]) # change back to ../ for google colab
         trans = transforms.Compose([transforms.Resize(384), transforms.CenterCrop(384), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
         img = trans(img) 
@@ -59,7 +59,7 @@ class TransferValidationDataset(torch.utils.data.Dataset):
         else:
             c='D'
         
-        img = Image.open("../augmented_images/" + c+self.pictures[index%pictures.size]) # change back to ../ for google colab
+        img = Image.open("../augmented_images/" + c+self.pictures[index%self.pictures.size]) # change back to ../ for google colab
         trans = transforms.Compose([transforms.Resize(384), transforms.CenterCrop(384), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
         img = trans(img) 
