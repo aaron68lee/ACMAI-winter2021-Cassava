@@ -56,6 +56,7 @@ class StartingNetwork(nn.Module):
         
         self.flattened_dim=16*input_width*input_height
         
+        self.fc=nn.Linear(2048,512)
         self.fc1 = nn.Linear(512, 256)
         self.fc2 = nn.Linear(256, 128)
         self.fc3 = nn.Linear(128, output_dim)
@@ -78,6 +79,7 @@ class StartingNetwork(nn.Module):
         
         x = torch.reshape(x, (x.size()[0],2048))
 
+        x=self.fc(x)
         x = self.fc1(x)
         x = F.relu(x)
         x = self.fc2(x)
