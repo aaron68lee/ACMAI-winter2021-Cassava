@@ -48,7 +48,7 @@ class StartingNetwork(nn.Module):
         resnet.eval()
 
         '''
-        self.resnet = models.resnet18(pretrained = True)
+        self.resnet = models.resnet50(pretrained = True)
         #self.resnet = torch.hub.load('pytorch/vision', 'resnet18', pretrained=True)
         self.resnet.eval()
         self.resnet = torch.nn.Sequential(*(list(self.resnet.children())[:-1]))

@@ -72,12 +72,6 @@ def transfer_train(model, criterion, optimizer, scheduler, hyperparameters,train
                 scheduler.step()
                 epoch_acc = running_corrects.double() / dataset_sizes[phase]
                     phase, epoch_loss, epoch_acc))
-            # deep copy the model
-            if phase == 'val' and epoch_acc > best_acc:
-                best_acc = epoch_acc
-                best_model_wts = copy.deepcopy(model.state_dict())
-
-        print()
 
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(

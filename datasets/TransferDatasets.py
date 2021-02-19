@@ -51,22 +51,14 @@ class TransferValidationDataset(torch.utils.data.Dataset):
 
     # process images here, could augment pictures here to save memory
     def __getitem__(self, index):
-        if index*4<self.pictures.size:
-            c='A'
-        elif index*2<self.pictures.size:
-            c='B'
-        elif index*4/3<self.pictures.size:
-            c='C'
-        else:
-            c='D'
+        img = Image.open("../train_images/" + self.pictures[index]) # change back to ../ for google colab
         
-        img = Image.open("../augmented_data/" + c+self.pictures[index%self.pictures.size]) # change back to ../ for google colab
         trans = transforms.Compose([transforms.Resize(384), transforms.CenterCrop(384), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
         img = trans(img) 
         
-        disease_of_indexed_picture = self.disease_labels[index-(self.pictures.size*int(index/self.pictures.size))]
+        disease_of_indexed_picture = self.disease_labels[index]
 
         return img, disease_of_indexed_picture
     def __len__(self):
-        return 4*len(self.disease_labels)
+        return len(self.disease_labels)
