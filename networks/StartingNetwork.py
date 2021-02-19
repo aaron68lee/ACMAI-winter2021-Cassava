@@ -76,7 +76,7 @@ class StartingNetwork(nn.Module):
         with torch.no_grad():
             x = self.resnet(x)
         
-        print(x.size)
+        print(x.size())
         x = torch.reshape(x, (x.size()[0],512))
 
         x = self.fc1(x)
