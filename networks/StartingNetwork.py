@@ -83,6 +83,10 @@ class StartingNetwork(nn.Module):
                 print(name + ' is frozen')
                 for param in child.parameters():
                     param.requires_grad = False
+
+        x = self.resnet(x)
+
+        
         
         x = torch.reshape(x, (x.size()[0],2048))
 
