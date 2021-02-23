@@ -22,11 +22,11 @@ class TransferTrainDataset(torch.utils.data.Dataset):
             c='B'
         elif index*7<3*self.pictures.size:
             c='C'
-        elif index*7<4*self.pictures:
+        elif index*7<4*self.pictures.size:
             c='D'
-        elif index*7<5*self.pictures:
+        elif index*7<5*self.pictures.size:
             c='E'
-        elif index*7<6*self.pictures:
+        elif index*7<6*self.pictures.size:
             c='F'
         else:
             c='G'
