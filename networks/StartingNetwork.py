@@ -75,7 +75,7 @@ class StartingNetwork(nn.Module):
         #https://pytorch.org/vision/stable/models.html 
 
         for name, child in self.resnet.named_children():
-            if name in ['5', '6']:
+            if name in ['6', '7', '8']:
                 print(name + ' is unfrozen')
                 for param in child.parameters():
                     param.requires_grad = True
@@ -86,7 +86,7 @@ class StartingNetwork(nn.Module):
 
         x = self.resnet(x)
 
-        
+
         
         x = torch.reshape(x, (x.size()[0],2048))
 
