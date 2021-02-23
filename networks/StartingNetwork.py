@@ -76,11 +76,11 @@ class StartingNetwork(nn.Module):
 
         for name, child in self.resnet.named_children():
             if name in ['6', '7', '8']:
-                print(name + ' is unfrozen')
+                #print(name + ' is unfrozen')
                 for param in child.parameters():
                     param.requires_grad = True
             else:
-                print(name + ' is frozen')
+                #print(name + ' is frozen')
                 for param in child.parameters():
                     param.requires_grad = False
 
