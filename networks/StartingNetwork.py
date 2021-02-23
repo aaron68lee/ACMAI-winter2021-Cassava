@@ -77,7 +77,7 @@ class StartingNetwork(nn.Module):
         with torch.no_grad():
             x = self.resnet(x)
         
-        for name, child in self.resnet.named_children:
+        for name, child in self.resnet.named_children():
             print(name)
         print('\n\n\n')
         
