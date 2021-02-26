@@ -81,7 +81,9 @@ def starting_train(
                 train_acc = compute_accuracy(predictions, labels)
                 train_summary.add_scalar("train_acc", train_acc, global_step = step)
                 print('====== TRAIN ACC:', train_acc)
-
+                model_save_name='model'
+                path=F"/content/gdrive/My Drive/{model_save_name}"
+                torch.save(mode.state_dict(),path)
 
                 # TODO:
                 # Compute validation loss and accuracy.
