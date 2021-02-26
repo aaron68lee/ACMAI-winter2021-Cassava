@@ -74,8 +74,19 @@ class StartingNetwork(nn.Module):
         # Remove last layer, and add new one
         #https://pytorch.org/vision/stable/models.html 
 
-        with torch.no_grad():
-            x = self.resnet(x)
+        for name, child in self.resnet.named_children():
+            if name in ['6', '7', '8']:
+                #print(name + ' is unfrozen')
+                for param in child.parameters():
+                    param.requires_grad = True
+            else:
+                #print(name + ' is frozen')
+                for param in child.parameters():
+                    param.requires_grad = False
+
+        x = self.resnet(x)
+
+
         
         x = torch.reshape(x, (x.size()[0],2048))
 
