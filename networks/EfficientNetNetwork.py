@@ -11,7 +11,7 @@ def getUpdatedDimension(input_dimension,padding,dilation,kernel,stride):
     x=input_dimension+2*padding-dilation*(kernel-1)-1
     return int((x/stride)+1)
 
-class StartingNetwork(nn.Module):
+class EfficientNetwork(nn.Module):
     """
     Basic logistic regression on 224x224x3 images.
     """
